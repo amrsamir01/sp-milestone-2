@@ -44,9 +44,6 @@ export class Transaction {
   @Prop({ required: true })
   Display_date: string;
 
-  @Prop({ required: true })
-  name: string;
-
   @Prop({ required: false })
   debit: number;
 

@@ -58,24 +58,25 @@ export default function InnerT() {
 
 
     const handleSubmit = (event) => {
-        event.preventDefault();
-        //validateReciverAccountId(recieverAccountId);
-        //validateAmount(amount);
-            // Call User Transfer Adapter
-            useTransferMutation.mutate(
-                {
-                    "from_To": recieverAccountId,
-                    "Display_date": (new Date()).toDateString(),
-                    "description": "internal transfer",
-                    "debit": 1,
-                    "credit": 0,
-                    "amount": Number(amount),
-                    "accountid": window.localStorage.getItem("accountid")
-                }
-            );
+      event.preventDefault();
+      //validateAccountId();
+      //validateAmountState();
+      // validateDescriptionState();
+       {
+          // Call User Transfer Adapter
+          useTransferMutation.mutate(
+              {
+                  "from_To": recieverAccountId,
+                  "Display_date": (new Date()).toDateString(),
+                  "debit": 1,
+                  "credit": 0,
+                  "amount": Number (amount),
+                  "accountid": window.localStorage.getItem("accountid")
+              }
+          );
 
-        }
-
+      }
+    }
     return (
       <div className={styles.App}>
         <h2>Inner Transactions</h2>

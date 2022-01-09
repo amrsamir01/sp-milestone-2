@@ -36,7 +36,7 @@ getAll():any{
   }
 
   @Post('InnerT')
-  async CreateInnerTransaction(@Body() senderDto:TransactionDto):Promise<any>{
+  CreateInnerTransaction(@Body() senderDto:TransactionDto):any{
     const sender = this.transactionService.createTransaction(senderDto);
     const reciever = this.transactionService.createRecieverTransaction(senderDto);
     return [sender,reciever];

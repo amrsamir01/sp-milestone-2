@@ -7,10 +7,6 @@ export class TransactionDto{
 
   //@IsNotEmpty()
   Display_date: string;
-
-  //@IsNotEmpty()
-  name: string;
-
   
   debit: number;
 
