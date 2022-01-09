@@ -73,6 +73,8 @@ export default function Dashboard() {
       </Table>
       </FormGroup>
       </Form>
+      <Button style={{justifyContent: 'right'}} color="primary" className="float-right" onClick={() => {
+        window.location.replace("http://localhost:3000/InnerT"); }}> Inner Transactions </Button> 
     </div>
   );
 }

@@ -79,6 +79,9 @@ export default function InnerT() {
     }
     return (
       <div className={styles.App}>
+        <Button style={{justifyContent: 'right'}} color="primary" className="float-right" onClick={() => {
+        window.location.replace("http://localhost:3000/transactions"); }}> Back </Button>
+        <br></br>
         <h2>Inner Transactions</h2>
         <Form className={styles.form} onSubmit={handleSubmit}>
         <FormGroup>
@@ -91,8 +94,9 @@ export default function InnerT() {
             placeholder="Enter Reciver Account ID"
             onChange={handleChange}
             valid={recieverAccountIdState === "has-success"}
-            invalid={recieverAccountIdState === "has-danger"}>
-          </Input>
+            invalid={recieverAccountIdState === "has-danger"}
+          />
+          
         </FormGroup>
         <FormGroup>
           <Label className={styles.label} for="amount">
@@ -104,14 +108,16 @@ export default function InnerT() {
             placeholder="Enter  the Amount"
             onChange={handleChange}
             valid={amountState === "has-success"}
-            invalid={amountState === "has-danger"}>
-          </Input>
+            invalid={amountState === "has-danger"}
+          />
         </FormGroup>
           <Button color="primary">Submit</Button>
         </Form>
         <Form className={styles.form} onSubmit={handleSubmit}>
-  
         </Form>
+        <Button color="outline-primary"  onClick={() => {      
+             window.location.replace("http://localhost:3000");    
+        }} >Return to Sign in</Button>
       </div>
     );
 }

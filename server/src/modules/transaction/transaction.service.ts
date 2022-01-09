@@ -34,12 +34,12 @@ export class TransactionService {
   
   createRecieverTransaction(sender_dto: TransactionDto):any{
     const reciever_dto:TransactionDto = {
-      from_To: sender_dto.from_To,
-      accountid:sender_dto.accountid, 
-      amount: sender_dto.amount, 
-      credit: 1, 
-      debit: 0, 
-      Display_date: sender_dto.Display_date
+      from_To:(sender_dto).accountid.toString(),
+      accountid:(sender_dto).from_To.toString(),
+      amount:sender_dto.amount,
+      credit:1,
+      debit:0,
+      Display_date:sender_dto.Display_date
     }
     const reciever_transaction = this.createTransaction(reciever_dto);
     return reciever_transaction;
