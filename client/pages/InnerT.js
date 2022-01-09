@@ -1,114 +1,119 @@
+import React, { useEffect, useState } from "react";
+import { Input, Label } from "reactstrap";
+import apiService from "../services/apiService";
+import Table from 'react-bootstrap/Table'
+import Logout from '../components/Logout';
+import styles from "../styles/Home.module.css";
 import {
-    Button,
     Form,
     FormGroup,
-    Input,
-    Label,
-    FormFeedback,
-  } from "reactstrap";
-import styles from "../styles/Home.module.css";
-import { useState } from "react";
-//import { useMutateTransaction } from "../adapters/user";
+    Button,
+} from "reactstrap";
 
-export default function InnerTrans() {
-  const [value,setValue] = useState("");
-  const [accountId,setAccountId] = useState("");
+import { useMutateTransaction } from "../adapters/user";
 
-  const [valueState,setValueState] = useState("");
-  const [accountIdState,setAccountIdState] = useState("");
+export default function InnerT() {
+    const [recieverAccountId, setrecieverAccountId] = useState("");
+    const [amount, setAmount] = useState("");
 
-  //const InnerTransaction = useMutateTransaction();
+    const [recieverAccountIdState, setrecieverAccountIdState] = useState("");
+    const [amountState, setAmountState] = useState("");
 
-  const validateValue = (value) => {
-    let valueState;
-    if (value.length >= 2) {
-      valueState = "has-success";
-    } else {
-      valueState = "has-danger";
+    const useTransferMutation = useMutateTransaction();
+
+    /*const validateReciverAccountId = (value) => {
+      let recieverAccountIdState;
+      if (value.length > 10) {
+        recieverAccountIdState = "has-success";
+      }
+      else {
+        recieverAccountIdState = "has-danger";
+      }
+      setrecieverAccountIdState(recieverAccountIdState);
     }
-    setValueState(valueState);
-  };
 
-  const validateAccountId = (value) => {
-    let accountIdState;
-    if (value.length >= 2) {
-        accountIdState = "has-success";
-    } else {
-        accountIdState = "has-danger";
-    }
-    setAccountIdState(accountIdState);
-  };
+    const validateAmount = (value) => {
+      let amountState;
+      if (value.length > 10) {
+        amountState = "has-success";
+      }
+      else {
+        amountState = "has-danger";
+      }
+      setAmountState(amountState);
+    }*/
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    if(name === "value"){
-      validateValue(value);
-      setValue(value);
-    }else if(name === "accountId"){
-      validateAccountId(value);
-      setAccountId(value);
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+
+        if (name === "recieverAccountId") {
+            //validateReciverAccountId(value);
+            setrecieverAccountId(value);
+        }else if (name === "amount") {
+            //validateAmount(value);
+            setAmount(value);
+        }
+
     }
-  };
-  
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    validateAccountId(accountId);
-    validateValue(value);
-    if(
-      valueState === "has-success" &&
-      accountIdState === "has-success"
-    ){
-      //InnerTransaction.mutate({
-        //"value":value,
-        //"userid":userid
-      //})
-    }
-  };
-  
-  return (
-    <div className={styles.App}>
-      <h2>Inner Transactions</h2>
-      <Form className={styles.form} onSubmit={handleSubmit}>
-      <FormGroup>
-          <Label className={styles.label} for="accountid">
-          Account ID
+
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        //validateReciverAccountId(recieverAccountId);
+        //validateAmount(amount);
+            // Call User Transfer Adapter
+            useTransferMutation.mutate(
+                {
+                    "from_To": recieverAccountId,
+                    "Display_date": (new Date()).toDateString(),
+                    "description": "internal transfer",
+                    "debit": 1,
+                    "credit": 0,
+                    "amount": Number(amount),
+                    "accountid": window.localStorage.getItem("accountid")
+                }
+            );
+
+        }
+
+    return (
+      <div className={styles.App}>
+        <h2>Inner Transactions</h2>
+        <Form className={styles.form} onSubmit={handleSubmit}>
+        <FormGroup>
+          <Label className={styles.label} for="recieverAccountid">
+            Reciver Account ID 
           </Label>
-          <Input
-            type="number"
-            name="accountid"
-            id="accountid"
-            placeholder="Enter the Account ID"
+          <Input type="text"
+            name="recieverAccountid"
+            id="recieverAccountid"
+            placeholder="Enter Reciver Account ID"
             onChange={handleChange}
-            valid={accountIdState === "has-success"}
-            invalid={accountIdState === "has-danger"}
-          />
-          <FormFeedback>
-          
-          </FormFeedback>
+            valid={recieverAccountIdState === "has-success"}
+            invalid={recieverAccountIdState === "has-danger"}>
+          </Input>
         </FormGroup>
         <FormGroup>
-          <Label className={styles.label} for="value">
-          Value
+          <Label className={styles.label} for="amount">
+            Amount 
           </Label>
-          <Input
-            type="number"
-            name="value"
-            id="value"
-            placeholder="Enter the value"
+          <Input type="text"
+            name="amount"
+            id="amount"
+            placeholder="Enter  the Amount"
             onChange={handleChange}
-            valid={valueState === "has-success"}
-            invalid={valueState === "has-danger"}
-          />
-          <FormFeedback>
-                
-          </FormFeedback>
+            valid={amountState === "has-success"}
+            invalid={amountState === "has-danger"}>
+          </Input>
         </FormGroup>
-        <Button color="primary">Submit</Button>
-      </Form>
-      <Form className={styles.form} onSubmit={handleSubmit}>
-
-      </Form>
-    </div>
-  );
+          <Button color="primary">Submit</Button>
+        </Form>
+        <Form className={styles.form} onSubmit={handleSubmit}>
+  
+        </Form>
+      </div>
+    );
 }
+  
+  
   

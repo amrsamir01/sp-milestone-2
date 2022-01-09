@@ -3,7 +3,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { TransactionService } from './transaction.service';
 import {TransactionDto} from './dto/transaction.dto'
 import {ObjectId} from 'mongoose';
-
+import { AccountService } from '../account/account.service';
 
 @Controller('transactions')
 export class TransactionController {
@@ -33,5 +33,12 @@ getAll():any{
   CreateTransaction(@Body() dto:TransactionDto):any{
       const transaction = this.transactionService.createTransaction(dto);
       return transaction;
+  }
+
+  @Post('InnerT')
+  async CreateInnerTransaction(@Body() senderDto:TransactionDto):Promise<any>{
+    const sender = this.transactionService.createTransaction(senderDto);
+    const reciever = this.transactionService.createRecieverTransaction(senderDto);
+    return [sender,reciever];
   }
 }

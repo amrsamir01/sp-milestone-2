@@ -60,3 +60,19 @@ export function useMutateRegisterUser() {
     });
   
 }
+
+export function useMutateTransaction() {
+  return useMutation(InnerT => {
+  const data = new FormData();
+  return apiService.post(`http://localhost:5000/transactions/InnerT`, InnerT);
+},
+{
+  // When mutate is called:
+  onSuccess: (responseData) => {
+    // Redirect to transaction page------------>
+    window.location.replace("http://localhost:3000/transactions")
+  },
+  onError: (e) => console.log(e.message),
+});
+
+}
