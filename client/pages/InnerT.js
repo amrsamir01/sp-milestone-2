@@ -12,9 +12,10 @@ import { useState } from "react";
 
 export default function InnerTrans() {
   const [value,setValue] = useState("");
-  const [userid,setUserid] = useState("");
+  const [accountId,setAccountId] = useState("");
+
   const [valueState,setValueState] = useState("");
-  const [useridState,setUseridState] = useState("");
+  const [accountIdState,setAccountIdState] = useState("");
 
   //const InnerTransaction = useMutateTransaction();
 
@@ -28,14 +29,14 @@ export default function InnerTrans() {
     setValueState(valueState);
   };
 
-  const validateUserid = (value) => {
-    let useridState;
+  const validateAccountId = (value) => {
+    let accountIdState;
     if (value.length >= 2) {
-      useridState = "has-success";
+        accountIdState = "has-success";
     } else {
-      useridState = "has-danger";
+        accountIdState = "has-danger";
     }
-    setUseridState(useridState);
+    setAccountIdState(accountIdState);
   };
 
   const handleChange = (event) => {
@@ -43,19 +44,19 @@ export default function InnerTrans() {
     if(name === "value"){
       validateValue(value);
       setValue(value);
-    }else if(name === "userid"){
-      validateUserid(value);
-      setUserid(value);
+    }else if(name === "accountId"){
+      validateAccountId(value);
+      setAccountId(value);
     }
   };
   
   const handleSubmit = (event) => {
     event.preventDefault();
-    validateUserid(userid);
+    validateAccountId(accountId);
     validateValue(value);
     if(
       valueState === "has-success" &&
-      useridState === "has-success"
+      accountIdState === "has-success"
     ){
       //InnerTransaction.mutate({
         //"value":value,
@@ -68,6 +69,23 @@ export default function InnerTrans() {
     <div className={styles.App}>
       <h2>Inner Transactions</h2>
       <Form className={styles.form} onSubmit={handleSubmit}>
+      <FormGroup>
+          <Label className={styles.label} for="accountid">
+          Account ID
+          </Label>
+          <Input
+            type="number"
+            name="accountid"
+            id="accountid"
+            placeholder="Enter the Account ID"
+            onChange={handleChange}
+            valid={accountIdState === "has-success"}
+            invalid={accountIdState === "has-danger"}
+          />
+          <FormFeedback>
+          
+          </FormFeedback>
+        </FormGroup>
         <FormGroup>
           <Label className={styles.label} for="value">
           Value
@@ -83,23 +101,6 @@ export default function InnerTrans() {
           />
           <FormFeedback>
                 
-          </FormFeedback>
-        </FormGroup>
-        <FormGroup>
-          <Label className={styles.label} for="userid">
-          User ID
-          </Label>
-          <Input
-            type="number"
-            name="userid"
-            id="userid"
-            placeholder="Enter the ID"
-            onChange={handleChange}
-            valid={useridState === "has-success"}
-            invalid={useridState === "has-danger"}
-          />
-          <FormFeedback>
-          
           </FormFeedback>
         </FormGroup>
         <Button color="primary">Submit</Button>
