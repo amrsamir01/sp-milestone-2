@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Transaction,TransactionDocument } from '@sp/schemas';
 import { Model, ObjectId } from 'mongoose';
 import internal from 'stream';
-import { exteranlDto } from './dto/exteranlDto';
+import { exteranlDto } from './dto/external.dto';
 
 
 @Injectable()
@@ -29,10 +29,11 @@ export class externalService {
   
   externalRecieverTransaction(sender_dto: exteranlDto):any{
     const reciever_dto:exteranlDto = {
-      accountid:(sender_dto).accountId.toString(),
+      accountid:(sender_dto).accountid,
       amount:sender_dto.amount,
-      description: ,
+      description: sender_dto.description,
     }
+    
     const reciever_transaction = this.createTransaction(reciever_dto);
     return reciever_transaction;
   }

@@ -1,19 +1,19 @@
 import { Body, Controller, Get, Post, Request, UseGuards,Param } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { TransactionService } from './transaction.service';
-import { exteranlDto } from './dto/exteranlDto.dto'
+import { externalService } from './external.services';
 import {ObjectId} from 'mongoose';
 import { AccountService } from '../account/account.service';
+import { exteranlDto } from './dto/external.dto';
 
 @Controller('transactions')
 export class externalController {
   // TODO: Define your Transaction Endpoints
-  constructor(private transactionService: TransactionService) {}
+  constructor(private externalService: externalService) {}
 
 
 @Get()
 getAll():any{
-  return this.transactionService.getAll();
+  return this.externalService.getAll();
 }
 
 
@@ -30,8 +30,8 @@ getAll():any{
 
   @Post('outerT')
   externalTransaction(@Body() senderDto:exteranlDto):any{
-    const sender = this.externalService.externalTransaction(senderDto);
-    const reciever = this.externalService.externalTransaction(senderDto);
-    return [sender,reciever];
+    // const sender = this.externalService.CreateTransaction(senderDto);
+    // const reciever = this.externalService.CreateTransaction(senderDto);
+    // return [sender,reciever];
   }
 }

@@ -1,6 +1,6 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { externalController } from './external.controller';
-import { externalService } from './external.service';
+import { externalService } from './external.services';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Transaction, TransactionSchema } from '@sp/schemas';
 import { AccountsModule } from '../account/account.module';
