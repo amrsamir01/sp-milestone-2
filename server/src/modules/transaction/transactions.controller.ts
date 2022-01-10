@@ -33,14 +33,14 @@ export class TransactionController {
   }
   
   @Post('InnerT')
-  async internalTransfer(@Body() senderDto:TransactionDto):Promise<any>{
-    console.log(senderDto);
-    const value = await this.accountService.calculateBalance(senderDto.accountid);
-    if(value-senderDto.amount<0){
+  async InnerT(@Body() sDto:TransactionDto):Promise<any>{
+    console.log(sDto);
+    const value = await this.accountService.calculateBalance(sDto.accountid);
+    if(sDto.amount-value>0){
       throw new HttpException('it is not avilable', HttpStatus.BAD_REQUEST);
     }
-    const sender = this.transactionService.createTransaction(senderDto);
-    const reciever = this.transactionService.createRecieverTransaction(senderDto);
+    const sender = this.transactionService.createTransaction(sDto);
+    const reciever = this.transactionService.createRTransaction(sDto);
     return [sender,reciever];
   }
 }

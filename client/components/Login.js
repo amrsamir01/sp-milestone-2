@@ -85,7 +85,7 @@ export default function Login() {
             onChange={handleChange}
           />
         </FormGroup>
-        <Button color="primary" onClick={handleSubmit}>Submit</Button>
+        <Button color="primary" onClick={handleSubmit}>Log in</Button>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
         <Button color="success" onClick={() => {window.location.replace("http://localhost:3000/register")} }>Sign Up</Button>

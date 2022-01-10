@@ -11,11 +11,11 @@ export class externalService {
   // TODO: Define your Transaction Service Logic
 
   //getTrancation(takes the accountId)
-  constructor(@InjectModel(Transaction.name) private transactionModel: Model<TransactionDocument>) {}
+  constructor(@InjectModel(Transaction.name) private transactionModel:Model<TransactionDocument>) {}
 
-   async getTrancation(accountid:number): Promise<Transaction[]> {
+   /*async getTrancation(accountid:number): Promise<Transaction[]> {
     return await this.transactionModel.find({accountid:accountid}).exec();
-   }
+   }*/
 
   async getAll():Promise<any>{
     return await this.transactionModel.find().exec(); 

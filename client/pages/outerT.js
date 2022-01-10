@@ -10,48 +10,80 @@ import {
     Button,
 } from "reactstrap";
 
-import { useMutateTransaction } from "../adapters/user";
+import { useMutateOuterTransaction } from "../adapters/user";
 
 export default function InnerT() {
-    const [recieverAccountId, setrecieverAccountId] = useState("");
-    const [amount, setAmount] = useState("");
+  const[accountid, setAccountid] = useState("");
+  const[amount, setAmount] = useState("");
+  const[description, setDescription] = useState("");
 
-    const [recieverAccountIdState, setrecieverAccountIdState] = useState("");
-    const [amountState, setAmountState] = useState("");
+  const[recieverAccountIdState, setAccountidState] = useState("");
+  const[amountState, setAmountState] = useState("");
+  const[descriptionState, setDescriptionState] = useState("");
 
-    const useTransferMutation = useMutateTransaction();
+  const useTransferMutation = useMutateOuterTransaction();
 
-    const handleChange = (event) => {
-        const { name, value } = event.target;
-
-        if (name === "recieverAccountId") {
-            //validateReciverAccountId(value);
-            setrecieverAccountId(value);
-        }else if (name === "amount") {
-            //validateAmount(value);
-            setAmount(value);
-        }
-
+  const validateAmount = (value) =>{
+    let amountState;
+    if(value == null){
+      amountState = "has-danger";
+    }else{
+      amountState = "has-success";
     }
+    setAmountState(amountState);
+  }
 
-
-    const handleSubmit = (event) => {
-      event.preventDefault();
-       {
-          // Call User Transfer Adapter
-          useTransferMutation.mutate(
-              {
-                  "from_To": recieverAccountId,
-                  "Display_date": (new Date()).toDateString(),
-                  "debit": 1,
-                  "credit": 0,
-                  "amount": Number (amount),
-                  "accountid": window.localStorage.getItem("accountid")
-              }
-          );
-
-      }
+  const validateAccountid = (value) =>{
+    let accountidState;
+    if(value.length == 12){
+      accountidState = "has-success";
+    }else{
+      accountidState = "has-danger";
     }
+    setAccountidState(accountidState);
+  }
+
+  const validateDescription = (value) =>{
+    let descriptionState;
+    if(value.length > 0){
+      descriptionState = "has-success";
+    }else{
+      descriptionState = "has-danger";
+    }
+    setDescriptionState(descriptionState);
+  }
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    if (name === "amount") {
+      validateAmount(value);
+      setAmount(value);
+    }else if (name === "accountid") {
+      validateAccountid(value);
+      setAccountid(value);
+    }else if(name === "description"){
+      validateDescription(value);
+      setDescription(value);
+    }
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    validateAmount(amount);
+    validateAccountid(accountid);
+    validateDescription(description);
+    if(accountidState==="has-success" && amountState==="has-success" && description==="has-success"){
+      useTransferMutation.mutate(
+        {
+          "from_To": accountid.toString(),
+          "Display_date": new Date().toDateString(),
+          "debit": 1,
+          "credit": 0,
+          "amount": amount,
+          "accountid": window.localStorage.getItem("accountid"),
+        }); 
+    } 
+  }
     return (
       <div className={styles.App}>
         <Button style={{justifyContent: 'right'}} color="primary" className="float-right" onClick={() => {
@@ -77,26 +109,26 @@ export default function InnerT() {
           <Label className={styles.label} for="amount">
             Amount 
           </Label>
-          <Input type="text"
+          <Input type="Number"
             name="amount"
             id="amount"
-            placeholder="Enter  the Amount"
+            placeholder="Enter the Amount"
             onChange={handleChange}
             valid={amountState === "has-success"}
             invalid={amountState === "has-danger"}
           />
         </FormGroup>
           <FormGroup>
-          <Label className={styles.label} for="amount">
+          <Label className={styles.label} for="description">
             Description 
           </Label>
           <Input type="text"
             name="description"
             id="description"
-            placeholder="Enter  the description"
+            placeholder="Enter the description"
             onChange={handleChange}
-            valid={amountState === "has-success"}
-            invalid={amountState === "has-danger"}
+            valid={descriptionState === "has-success"}
+            invalid={descriptionState === "has-danger"}
           />
         </FormGroup>
         
