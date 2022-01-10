@@ -6,13 +6,12 @@ import {
     FormGroup,
     Button,
 } from "reactstrap";
-import { useMutateTransaction } from "../adapters/user";
+import { useMutateInnerTransaction } from "../adapters/user";
 
 export default function InnerT() {
-    const [recieverAccountId, setrecieverAccountId] = useState("");
     const [amount, setAmount] = useState("");
 
-    const useTransferMutation = useMutateTransaction();
+    const useTransferMutation = useMutateInnerTransaction();
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -35,7 +34,7 @@ export default function InnerT() {
                 "Display_date": new Date().toDateString(),
                 "debit": 1,
                 "credit": 0,
-                "amount": Number(amount),
+                "amount": amount,
                 "accountid": window.localStorage.getItem("accountid"),
               }
           );
@@ -56,7 +55,7 @@ export default function InnerT() {
           <Input type="text"
             name="accountid"
             id="accountid"
-            placeholder="Enter Reciver Account ID"
+            placeholder="Enter The Reciver Account ID"
             onChange={handleChange}
           />
         </FormGroup>
@@ -77,7 +76,7 @@ export default function InnerT() {
         </Form>
         <Button color="outline-primary"  onClick={() => {      
              window.location.replace("http://localhost:3000");    
-        }} >Return to Sign in</Button>
+        }} >Return to Accounts</Button>
       </div>
     );
 }

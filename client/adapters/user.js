@@ -61,7 +61,7 @@ export function useMutateRegisterUser() {
   
 }
 
-export function useMutateTransaction() {
+export function useMutateInnerTransaction() {
   return useMutation(InnerT => {
   const data = new FormData();
   return apiService.post(`http://localhost:5000/transactions/InnerT`, InnerT);
