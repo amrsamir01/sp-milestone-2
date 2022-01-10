@@ -1,14 +1,13 @@
 import { forwardRef, Module } from '@nestjs/common';
-import { externalController } from './external.controller';
-import { externalService } from './external.service';
+import { TransactionController } from './transactions.controller';
+import { TransactionService } from './transaction.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Transaction, TransactionSchema } from '@sp/schemas';
 import { AccountsModule } from '../account/account.module';
-
 @Module({
   imports:[MongooseModule.forFeature([{ name: Transaction.name, schema: TransactionSchema }]),forwardRef(() => AccountsModule)],
-  exports: [externalService],
-  controllers: [externalController],
-  providers: [externalService],
+  exports: [TransactionService],
+  controllers: [TransactionController],
+  providers: [TransactionService],
 })
 export class TransactionModule {}
