@@ -29,6 +29,7 @@ export class externalService {
   
   externalRecieverTransaction(sender_dto: exteranlDto):any{
     const reciever_dto:exteranlDto = {
+      //reciver id
       accountid:(sender_dto).accountid,
       amount:sender_dto.amount,
       description: sender_dto.description,
