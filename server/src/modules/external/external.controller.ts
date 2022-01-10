@@ -24,7 +24,7 @@ getAll():any{
 
   @Get(':accountId')
   transaction(@Param('accountId') accountId: number): any {
-    //return this.externalService.getTrancation(accountId);
+    return this.externalService.getTrancation(accountId);
   }
 
   @Post('')
