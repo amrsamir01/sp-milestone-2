@@ -19,17 +19,17 @@ export default function InnerT() {
 
   const validateAmount = (value) =>{
     let amountState;
-    if(value == 0){
-      amountState = "has-success";
-    }else{
+    if(value == null){
       amountState = "has-danger";
+    }else{
+      amountState = "has-success";
     }
     setAmountState(amountState);
   }
 
   const validateAccountid = (value) =>{
     let accountidState;
-    if(value.length == 11){
+    if(value.length == 12){
       accountidState = "has-success";
     }else{
       accountidState = "has-danger";
@@ -55,7 +55,7 @@ export default function InnerT() {
     if(accountidState==="has-success" && amountState==="has-success"){
       useTransferMutation.mutate(
         {
-          "from_To": "Bank",
+          "from_To": accountid.toString(),
           "Display_date": new Date().toDateString(),
           "debit": 1,
           "credit": 0,
@@ -83,7 +83,7 @@ export default function InnerT() {
           valid={accountidState === "has-success"}
           invalid={accountidState === "has-danger"}
         />
-        <FormFeedback>Account ID size must be 11</FormFeedback>
+        <FormFeedback>Account ID size must be 12</FormFeedback>
       </FormGroup>
       <FormGroup>
         <Label className={styles.label} for="amount">
