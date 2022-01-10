@@ -5,7 +5,7 @@ import {TransactionDto} from './dto/transaction.dto'
 import {ObjectId} from 'mongoose';
 import { AccountService } from '../account/account.service';
 
-@Controller('external')
+@Controller('transactions')
 export class TransactionController {
   // TODO: Define your Transaction Endpoints
   constructor(private transactionService: TransactionService) {}

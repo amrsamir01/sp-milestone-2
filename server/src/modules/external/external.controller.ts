@@ -7,7 +7,7 @@ import { exteranlDto } from './dto/external.dto';
 import { Transaction } from '@sp/schemas';
 import { JwtService } from '@nestjs/jwt/dist';
 
-@Controller('transactions')
+@Controller('external')
 export class externalController {
   
   private jwtService: JwtService;
