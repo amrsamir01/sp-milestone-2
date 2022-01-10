@@ -33,8 +33,8 @@ export default function InnerT() {
               {
                 "from_To": "Bank",
                 "Display_date": new Date().toDateString(),
-                "debit": 0,
-                "credit": 1,
+                "debit": 1,
+                "credit": 0,
                 "amount": Number(amount),
                 "accountid": window.localStorage.getItem("accountid"),
               }
