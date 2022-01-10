@@ -31,10 +31,10 @@ export default function InnerT() {
        {
           useTransferMutation.mutate(
               {
-                "from_To": recieverAccountId,
+                "from_To": "Bank",
                 "Display_date": new Date().toDateString(),
-                "debit": 1,
-                "credit": 0,
+                "debit": 0,
+                "credit": 1,
                 "amount": Number(amount),
                 "accountid": window.localStorage.getItem("accountid"),
               }

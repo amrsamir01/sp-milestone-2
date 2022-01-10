@@ -33,7 +33,7 @@ export class TransactionController {
   }
   
   @Post('InnerT')
-  async internalTransfer(@Body() senderDto:TransactionDto):Promise<any>{
+  async InnerT(@Body() senderDto:TransactionDto):Promise<any>{
     console.log(senderDto);
     const value = await this.accountService.calculateBalance(senderDto.accountid);
     if(value-senderDto.amount<0){
