@@ -39,9 +39,9 @@ export class AccountService {
    * @return the created account
    */
 
-  createAccount(userid: string): Promise<Account> {
-    const newId = (Math.floor(Math.random() * 50) + 1).toString();
-    const newId2 = (Math.floor(Math.random() * 17) + 1).toString();
+   createAccount(userid: string): Promise<Account> {
+    const newId = (Math.floor(Math.random() * (999-100)) + 100).toString();
+    const newId2 = (Math.floor(Math.random() * (99 - 10)) + 10).toString();
     const createdAccount = new this.accountModel({
       userid: userid,
       status: "active",
@@ -67,5 +67,10 @@ export class AccountService {
       return acc + value;
     }, 0);
     return total;
+  }
+  
+  async findAccountbyAccountId(aid:string) :Promise<any>
+  {
+    return await this.accountModel.findOne({ accountid: aid }).exec();
   }
 }

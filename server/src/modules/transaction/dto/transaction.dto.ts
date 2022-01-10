@@ -2,15 +2,14 @@ import { IsNotEmpty } from 'class-validator';
 
 export class TransactionDto{
 
-  @IsNotEmpty()
+  //@IsNotEmpty()
   from_To:string;
 
-  @IsNotEmpty()
+  //@IsNotEmpty()
   Display_date: string;
   
   debit: number;
 
- 
   credit: number;
 
   @IsNotEmpty()
