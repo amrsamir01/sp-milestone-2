@@ -32,16 +32,16 @@ export class TransactionService {
     return newTransaction.save();  
   }
   
-  createRecieverTransaction(senderDto: TransactionDto):Promise<Transaction>{
-    const recieverDto:TransactionDto = {
-      from_To:senderDto.accountid,
-      Display_date:(senderDto).Display_date,
-      debit:0,
-      credit:1,
-      amount:(senderDto).amount,
-      accountid: senderDto.from_To.toString()
+  createRTransaction(sDto: TransactionDto):Promise<Transaction>{
+    const rDto:TransactionDto = {
+      from_To: sDto.accountid,
+      Display_date: sDto.Display_date,
+      debit: 0,
+      credit: 1,
+      amount: sDto.amount,
+      accountid: sDto.from_To.toString()
     }
-    const reciever_transaction = this.createTransaction(recieverDto);
-    return reciever_transaction;
+    const reciever = this.createTransaction(rDto);
+    return reciever;
   }
 }
