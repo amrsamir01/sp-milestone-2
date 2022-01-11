@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import styles from "../styles/Home.module.css";
 import { useMutateOuterTransaction } from "../adapters/user";
 
-
 export default function ExternalTransfer() {
 
     const [AccountID, setAccountID] = useState("");
@@ -73,7 +72,7 @@ export default function ExternalTransfer() {
      */
       const validateDescription = (value) => {
         let descriptionState;
-        if (value.length > 5) {
+        if (value.length > 3) {
             descriptionState = "has-success";
         }
         else {
@@ -127,8 +126,8 @@ export default function ExternalTransfer() {
           // Call User Register Adapter
           useExternalMutation.mutate(
             {
-              "accountid":AccountIDMine,
-              "receiverAccountNumber": AccountID,
+              "sender_id":AccountIDMine,
+              "receiver_id": AccountID,
               "url": URL,
               "amount": Amount,
               "description": Description,
@@ -151,26 +150,26 @@ export default function ExternalTransfer() {
             type="number"
             name="accountID"
             id="accountID"
-            placeholder="id"
+            placeholder="Receiver Account ID"
             valid={accountIDState === "has-success"}
             invalid={accountIDState === "has-danger"}
             onChange={handleChange}
           />
-          <FormFeedback>Account id not found.</FormFeedback>
+          <FormFeedback>Invalid ID</FormFeedback>
         </FormGroup>
 
         <FormGroup>
-          <Label for="amount">Amount (EGP)</Label>
+          <Label for="amount">Amount</Label>
           <Input
             type="number"
             name="amount"
             id="amount"
-            placeholder="enter amount in EGP"
+            placeholder="amount"
             valid={amountState === "has-success"}
             invalid={amountState === "has-danger"}
             onChange={handleChange}
           />
-          <FormFeedback>Invalid amount hint: It needs to be less than 50.</FormFeedback>
+          <FormFeedback>The maximum amout to transfer is 50</FormFeedback>
         </FormGroup>
 
         <FormGroup>
@@ -178,7 +177,7 @@ export default function ExternalTransfer() {
             <select defaultValue="Choose Bank" onChange={(event) =>setURL(event.target.value)}>
                 <option value = "default"> Please Pick A bank </option>
                 <option value = "https://safemonii.loca.lt/"> Safemonii </option>
-                <option value = "https://solace.loca.lt/"> solace </option>
+                <option value = "https://solace.loca.lt/"> Solace </option>
                 <option value = "https://ironbank.loca.lt/"> Ironbank </option>
                 <option value = "https://myfsd.loca.it/"> My Fsd </option>
                 <option value = "https://amryinternationalbank.loca.lt/"> Amry International Bank </option>
@@ -191,7 +190,7 @@ export default function ExternalTransfer() {
             type="textarea"
             name="description"
             id="description"
-            placeholder="example: money transfer"
+            placeholder="example: online payment"
             valid={descriptionState === "has-success"}
             invalid={descriptionState === "has-danger"}
             onChange={handleChange}

@@ -6,8 +6,8 @@ import { Account, AccountSchema } from '@sp/schemas';
 import { AccountsModule } from '../account/account.module';
 // import { AccountService } from '../account/account.service';
 import {TransactionModule} from '../transaction/transaction.module';
-import { ExternalController } from './external.controller';
-import { ExternalService } from './external.services';
+import { externalController } from './external.controller';
+import { externalService } from './external.services';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './strategies/jwt.strategy';
 
@@ -21,7 +21,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
         signOptions: { expiresIn: '60s' },
       }),AccountsModule],
  
-  controllers: [ExternalController],
-  providers: [ExternalService , JwtStrategy],
+  controllers: [externalController],
+  providers: [externalService , JwtStrategy],
 })
 export class ExternalModule {}
