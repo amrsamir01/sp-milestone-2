@@ -7,11 +7,14 @@ import { useMutateOuterTransaction } from "../adapters/user";
 
 export default function ExternalTransfer() {
 
+    //properties
     const [AccountID, setAccountID] = useState("");
     const [AccountIDMine, setAccountIDMine] = useState("");
     const [Amount, setAmount] = useState("");
     const [Description, setDescription] = useState("");
     const [URL, setURL] = useState("");
+
+    //States
     const [accountIDState, setAccountIDState] = useState("");
     const [amountState, setAmountState] = useState("");
     const [URLState, setURLState] = useState("");
@@ -142,9 +145,23 @@ export default function ExternalTransfer() {
     return ( 
    
       <div className={styles.App}>
-      <Button style={{justifyContent: 'right'}} color="primary" className="float-right" onClick={() => {
-      window.location.replace("http://localhost:3000/transactions"); }}> Back </Button>
-      <h1> Outer Transaction  </h1>
+        
+          <Button className="btn btn-info" color = "success" onClick={() => { window.location.replace("http://localhost:3000");}}>
+              Return to Sign in
+          </Button>
+          &nbsp;&nbsp;&nbsp;
+          
+          <Button className="btn btn-info" color = "success" onClick={() => { window.location.replace("http://localhost:3000/");}}>
+            Return to Dashboard
+          </Button>
+          &nbsp;&nbsp;&nbsp;
+        
+          <Button className="btn btn-info" onClick={() => { window.location.replace("http://localhost:3000/InnerT");}}>
+            Go To Internal Transfer
+          </Button>
+      
+
+      <h1> External Funds Transfer  </h1>
       <Form className={styles.form} onSubmit={handleSubmit}>
         <FormGroup>
           <Label for="accountID">Receiver Account ID</Label>
@@ -179,10 +196,10 @@ export default function ExternalTransfer() {
             <select defaultValue="Choose Bank" onChange={(event) =>setURL(event.target.value)}>
                 <option value = "default"> Please Pick A bank </option>
                 <option value = "https://safemonii.loca.lt/"> Safemonii </option>
-                <option value = "https://solace.loca.lt/"> solace </option>
                 <option value = "https://ironbank.loca.lt/"> Ironbank </option>
                 <option value = "https://myfsd.loca.it/"> My Fsd </option>
                 <option value = "https://amryinternationalbank.loca.lt/"> Amry International Bank </option>
+                <option value = "https://luckbank.loca.lt/" > Luck Bank </option>
             </select>
         </FormGroup>
 

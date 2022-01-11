@@ -1,24 +1,29 @@
 import { HttpException, HttpStatus, Injectable, Options } from "@nestjs/common";
-
+// import { InjectModel } from "@nestjs/mongoose";
+// import { Account, AccountDocument, Transaction } from "@sp/schemas";
+// import { Model } from "mongoose";
 import { TransactionService } from "../transaction/transaction.service";
 import { AccountService } from "../account/account.service";
+import { Response as Res, Request as Req, response } from "express";
 import { TransactionDto } from "../transaction/dto/transaction.dto";
 import { JwtService } from "@nestjs/jwt";
+// const JwtService = require("@nestjs/jwt")
 import axios from "axios";
-
 import { exteranlDto } from "./dto/external.dto";
-import { bodyDto } from "./dto/body.dto";
+import { RequestDto } from "./dto/Request.dto";
+// import axios from "axios";
 
 @Injectable()
-export class externalService {
+export class ExternalService {
   constructor(
+    // @InjectModel(Account.name) private accountModel: Model<AccountDocument>,
     private transactionService: TransactionService,
     private accountService: AccountService,
     private jwtService: JwtService
   ) {}
 
   CreateEtoken(dto: exteranlDto): any {
-    const shared_token = this.jwtService.sign(
+    const access_token = this.jwtService.sign(
       {
         accountid: dto.accountid,
         amount: dto.amount,
@@ -26,65 +31,80 @@ export class externalService {
       },
       { secret: "My-Secret-Key", expiresIn: "60s" }
     );
-    console.log(shared_token);
-    return shared_token;
+    console.log(access_token);
+
+    // res.json(response);
+    return access_token;
   }
 
-  async CreateExternal(post: bodyDto) {
+  async CreateExternal(request: RequestDto) {
     const balance = await this.accountService.calculateBalance(
-      post.sender_id
+      request.accountid
     );
+    // console.log(balance);  
+        console.log((Number(balance) >= Number(request.amount )+ 5));
 
-    if ((Number(balance) >= Number(post.amount )+ 5)) {
+    if ((Number(balance) >= Number(request.amount )+ 5)) {
       console.log(balance);
-      //send request
-      let body: exteranlDto = {
-        accountid: post.sender_id,
-        amount: post.amount,
-        description: post.description,
+
+      let req: exteranlDto = {
+        accountid: request.accountid,
+        amount: request.amount,
+        description: request.description,
       };
-      const token = await this.CreateEtoken(body);
+      const token = await this.CreateEtoken(req);
       console.log(token);
 
       return await axios
-        .post(`${post.url}/external/transfer`, body, {
+        .post(`${request.url}/external/transfer`, req, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Bypass-Tunnel-Reminder": "any",
           },
         })
         .then(async (response) => {
+          console.log("ana hena");
           const today = new Date();
           const tdto: TransactionDto = {
-            from_To: post.receiver_id,
-            accountid: post.sender_id,
-            amount: post.amount,
+            from_To: request.receiverAccountNumber,
+            accountid: request.accountid,
+            amount: request.amount,
             credit: 0,
             debit: 1,
             Display_date: today.toDateString(),
-            description: post.description,
+            description: request.description,
           };
-          const newTransa = await this.transactionService.createTransaction(tdto);
+          const newTransaction =
+            await this.transactionService.createTransaction(tdto);
           const tdto2: TransactionDto = {
-            from_To: post.sender_id,
-            accountid: post.receiver_id,
+            from_To: request.receiverAccountNumber,
+            accountid: request.accountid,
             amount: 5,
             credit: 0,
             debit: 1,
             Display_date: today.toDateString(),
-            description: post.description,
+            description: request.description,
           };
+          // const newTransaction2 =
+          //   await this.transactionService.createTransaction(tdto2);
           return await this.transactionService.createTransaction(tdto2);
         })
         .catch((err) => console.log(err));
     }
+      throw new HttpException(
+      "not enough money",
+      HttpStatus.BAD_REQUEST
+    );
   }
 
   async createTransfer(dto: exteranlDto) {
+    // check if accountid exist
     return this.accountService
       .findAccountbyAccountId(dto.accountid.toString())
       .then(async (account) => {
+        //if account exists resume else return error 400 "Bad_Request" with message of "account number not found"
         if (account) {
+          //checks if the amount is less than or equal 50 if yes resume and create a transaction else 400 "Bad_Request" with message of "amount exceeds 50"
           if (dto.amount <= 50) {
             let today = new Date();
             const tdto: TransactionDto = {
@@ -97,9 +117,16 @@ export class externalService {
               description: dto.description.toString(),
             };
             return await this.transactionService.createTransaction(tdto);
-          } 
+          } else
+            throw new HttpException(
+              "amount exceeds 50",
+              HttpStatus.BAD_REQUEST
+            );
         }
-      }
-    );
+        throw new HttpException(
+          "account number not found",
+          HttpStatus.BAD_REQUEST
+        );
+      });
   }
 }
