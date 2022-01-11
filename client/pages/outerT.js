@@ -4,7 +4,12 @@ import { useState, useEffect } from "react";
 import styles from "../styles/Home.module.css";
 import { useMutateOuterTransaction } from "../adapters/user";
 
+<<<<<<< Updated upstream
 export default function ExternalTransfer() {
+=======
+
+export default function OuterT() {
+>>>>>>> Stashed changes
 
     const [AccountID, setAccountID] = useState("");
     const [AccountIDMine, setAccountIDMine] = useState("");
@@ -30,6 +35,7 @@ export default function ExternalTransfer() {
      * @param {string} value -The account ID of the reciever the user wants to send to.
      */
 
+    //check length od reciever user id
      const validateAccountID = (value) => {
         let accountIDState;
         if (value.length === 12) {
@@ -45,6 +51,7 @@ export default function ExternalTransfer() {
      * @param {string} value -The amount of money the user wants to transfer.
      */
 
+      //check ammount value
       const validateAmount = (value) => { 
         let amountState; 
         if (value.length>0 && value <= 50) {
@@ -55,6 +62,7 @@ export default function ExternalTransfer() {
         setAmountState(amountState)
       }
 
+      //chack bank domain link
       const validateURL = (value)=>{
         let urlState;
         if (value.length>0 && value !== "default") {
@@ -70,6 +78,7 @@ export default function ExternalTransfer() {
      * Checks if the Description entered by the user is valid or not.
      * @param {string} value -The description of the transfer.
      */
+      //check description
       const validateDescription = (value) => {
         let descriptionState;
         if (value.length > 3) {
@@ -102,9 +111,6 @@ export default function ExternalTransfer() {
           validateURL(value);
           setURL(value);
         }
-
-       
-
       }
 
 
@@ -122,8 +128,6 @@ export default function ExternalTransfer() {
           descriptionState==="has-success" &&
           URLState ==="has-success"
         ) {
-
-          // Call User Register Adapter
           useExternalMutation.mutate(
             {
               "sender_id":AccountIDMine,
@@ -155,7 +159,11 @@ export default function ExternalTransfer() {
             invalid={accountIDState === "has-danger"}
             onChange={handleChange}
           />
+<<<<<<< Updated upstream
           <FormFeedback>Invalid ID</FormFeedback>
+=======
+          <FormFeedback>Invlid user</FormFeedback>
+>>>>>>> Stashed changes
         </FormGroup>
 
         <FormGroup>
@@ -169,13 +177,17 @@ export default function ExternalTransfer() {
             invalid={amountState === "has-danger"}
             onChange={handleChange}
           />
+<<<<<<< Updated upstream
           <FormFeedback>The maximum amout to transfer is 50</FormFeedback>
+=======
+          <FormFeedback>Please insert amount smaller than 50</FormFeedback>
+>>>>>>> Stashed changes
         </FormGroup>
 
         <FormGroup>
-        <Label for="bankSelect">Select a bank</Label>
+        <Label for="bankSelect">Bank name</Label>
             <select defaultValue="Choose Bank" onChange={(event) =>setURL(event.target.value)}>
-                <option value = "default"> Please Pick A bank </option>
+                <option value = ""> Choose ... </option>
                 <option value = "https://safemonii.loca.lt/"> Safemonii </option>
                 <option value = "https://solace.loca.lt/"> Solace </option>
                 <option value = "https://ironbank.loca.lt/"> Ironbank </option>
@@ -195,7 +207,7 @@ export default function ExternalTransfer() {
             invalid={descriptionState === "has-danger"}
             onChange={handleChange}
           />
-          <FormFeedback>Please don't leave it empty.</FormFeedback>
+          <FormFeedback>Required</FormFeedback>
         </FormGroup>
 
            <Button color = "primary"> Submit</Button>
