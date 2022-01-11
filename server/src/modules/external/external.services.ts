@@ -1,26 +1,15 @@
-import { HttpException, HttpStatus, Injectable, Options } from "@nestjs/common";
-// import { InjectModel } from "@nestjs/mongoose";
-// import { Account, AccountDocument, Transaction } from "@sp/schemas";
-// import { Model } from "mongoose";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { TransactionService } from "../transaction/transaction.service";
 import { AccountService } from "../account/account.service";
-import { Response as Res, Request as Req, response } from "express";
 import { TransactionDto } from "../transaction/dto/transaction.dto";
 import { JwtService } from "@nestjs/jwt";
-// const JwtService = require("@nestjs/jwt")
 import axios from "axios";
 import { exteranlDto } from "./dto/external.dto";
 import { RequestDto } from "./dto/Request.dto";
-// import axios from "axios";
 
 @Injectable()
 export class ExternalService {
-  constructor(
-    // @InjectModel(Account.name) private accountModel: Model<AccountDocument>,
-    private transactionService: TransactionService,
-    private accountService: AccountService,
-    private jwtService: JwtService
-  ) {}
+  constructor(private transactionService: TransactionService, private accountService: AccountService, private jwtService: JwtService) {}
 
   CreateEtoken(dto: exteranlDto): any {
     const access_token = this.jwtService.sign(
@@ -33,7 +22,6 @@ export class ExternalService {
     );
     console.log(access_token);
 
-    // res.json(response);
     return access_token;
   }
 
@@ -41,7 +29,6 @@ export class ExternalService {
     const balance = await this.accountService.calculateBalance(
       request.accountid
     );
-    // console.log(balance);  
         console.log((Number(balance) >= Number(request.amount )+ 5));
 
     if ((Number(balance) >= Number(request.amount )+ 5)) {
@@ -55,15 +42,13 @@ export class ExternalService {
       const token = await this.CreateEtoken(req);
       console.log(token);
 
-      return await axios
-        .post(`${request.url}/external/transfer`, req, {
+      return await axios.post(`${request.url}/external/transfer`, req, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Bypass-Tunnel-Reminder": "any",
           },
-        })
-        .then(async (response) => {
-          console.log("ana hena");
+        }).then(async (response) => {
+          console.log("ok");
           const today = new Date();
           const tdto: TransactionDto = {
             from_To: request.receiverAccountNumber,
@@ -74,8 +59,7 @@ export class ExternalService {
             Display_date: today.toDateString(),
             description: request.description,
           };
-          const newTransaction =
-            await this.transactionService.createTransaction(tdto);
+          const newTransaction = await this.transactionService.createTransaction(tdto);
           const tdto2: TransactionDto = {
             from_To: request.receiverAccountNumber,
             accountid: request.accountid,
@@ -85,26 +69,18 @@ export class ExternalService {
             Display_date: today.toDateString(),
             description: request.description,
           };
-          // const newTransaction2 =
-          //   await this.transactionService.createTransaction(tdto2);
           return await this.transactionService.createTransaction(tdto2);
         })
         .catch((err) => console.log(err));
     }
-      throw new HttpException(
-      "not enough money",
-      HttpStatus.BAD_REQUEST
-    );
+    throw new HttpException("it is not avilable",HttpStatus.BAD_REQUEST);
   }
 
   async createTransfer(dto: exteranlDto) {
-    // check if accountid exist
     return this.accountService
-      .findAccountbyAccountId(dto.accountid.toString())
+      .findAccount(dto.accountid.toString())
       .then(async (account) => {
-        //if account exists resume else return error 400 "Bad_Request" with message of "account number not found"
-        if (account) {
-          //checks if the amount is less than or equal 50 if yes resume and create a transaction else 400 "Bad_Request" with message of "amount exceeds 50"
+       if (account) {
           if (dto.amount <= 50) {
             let today = new Date();
             const tdto: TransactionDto = {
@@ -118,15 +94,9 @@ export class ExternalService {
             };
             return await this.transactionService.createTransaction(tdto);
           } else
-            throw new HttpException(
-              "amount exceeds 50",
-              HttpStatus.BAD_REQUEST
-            );
-        }
-        throw new HttpException(
-          "account number not found",
-          HttpStatus.BAD_REQUEST
-        );
+            throw new HttpException("amount is bigger 50",HttpStatus.BAD_REQUEST);
+          }
+        throw new HttpException("Invalid account number", HttpStatus.BAD_REQUEST);
       });
   }
 }

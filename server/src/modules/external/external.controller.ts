@@ -1,21 +1,13 @@
-import { HttpStatus, Controller, Get, Req, Post, Body, Res, UseGuards, HttpException} from "@nestjs/common";
+import { Controller, Post, Body, UseGuards } from "@nestjs/common";
 import { ExternalService } from "./external.services";
 import { AuthGuard } from '@nestjs/passport';
-// import { Request , Response } from 'express';
 import { exteranlDto } from "./dto/external.dto";
 import { AccountService } from "../account/account.service";
-import { ConstraintMetadata } from "class-validator/types/metadata/ConstraintMetadata";
-import { TransactionDto } from "../transaction/dto/transaction.dto";
-import { response } from "express";
 import { RequestDto } from "./dto/Request.dto";
 
 @Controller("external")
 export class ExternalController {
-  constructor(
-      private externalService: ExternalService,
-      private accountService: AccountService
-
-    ) {}
+  constructor(private externalService: ExternalService,private accountService: AccountService) {}
  
   @UseGuards(AuthGuard('jwt'))
   @Post("/transfer")
@@ -27,8 +19,7 @@ export class ExternalController {
         }
     }
 
-    // @UseGuards(AuthGuard('jwt'))
-    @Post("/createTransfer")
+    @Post("outerT")
       CreateExternal(@Body()request:RequestDto):any {
         try{
             return this.externalService.CreateExternal(request);

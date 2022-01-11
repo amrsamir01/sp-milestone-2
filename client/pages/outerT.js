@@ -25,11 +25,6 @@ export default function ExternalTransfer() {
       setAccountIDMine(accountId);
       console.log(accountId);
     }, []);
-  
-    /**
-     * Checks if the Account ID entered by the user is valid or not.
-     * @param {string} value -The account ID of the reciever the user wants to send to.
-     */
 
      const validateAccountID = (value) => {
         let accountIDState;
@@ -41,10 +36,6 @@ export default function ExternalTransfer() {
         }
         setAccountIDState(accountIDState);
     }
-    /**
-     * Checks if the Amount entered by the user is not more than 50 as the maximum transaction allowed is 50.
-     * @param {string} value -The amount of money the user wants to transfer.
-     */
 
       const validateAmount = (value) => { 
         let amountState; 
@@ -66,11 +57,6 @@ export default function ExternalTransfer() {
       setURLState(urlState);
       }
 
-
-    /**
-     * Checks if the Description entered by the user is valid or not.
-     * @param {string} value -The description of the transfer.
-     */
       const validateDescription = (value) => {
         let descriptionState;
         if (value.length > 5) {
@@ -151,21 +137,21 @@ export default function ExternalTransfer() {
             type="number"
             name="accountID"
             id="accountID"
-            placeholder="id"
+            placeholder="Receiver Account ID"
             valid={accountIDState === "has-success"}
             invalid={accountIDState === "has-danger"}
             onChange={handleChange}
           />
-          <FormFeedback>Account id not found.</FormFeedback>
+          <FormFeedback>Invalid user.</FormFeedback>
         </FormGroup>
 
         <FormGroup>
-          <Label for="amount">Amount (EGP)</Label>
+          <Label for="amount">Amount</Label>
           <Input
             type="number"
             name="amount"
             id="amount"
-            placeholder="enter amount in EGP"
+            placeholder="amount ..."
             valid={amountState === "has-success"}
             invalid={amountState === "has-danger"}
             onChange={handleChange}
@@ -174,11 +160,11 @@ export default function ExternalTransfer() {
         </FormGroup>
 
         <FormGroup>
-        <Label for="bankSelect">Select a bank</Label>
+        <Label for="bankSelect"> Bank name</Label>
             <select defaultValue="Choose Bank" onChange={(event) =>setURL(event.target.value)}>
-                <option value = "default"> Please Pick A bank </option>
+                <option value = ""> ChoOse ... </option>
                 <option value = "https://safemonii.loca.lt/"> Safemonii </option>
-                <option value = "https://solace.loca.lt/"> solace </option>
+                <option value = "https://solace.loca.lt/"> Solace </option>
                 <option value = "https://ironbank.loca.lt/"> Ironbank </option>
                 <option value = "https://myfsd.loca.it/"> My Fsd </option>
                 <option value = "https://amryinternationalbank.loca.lt/"> Amry International Bank </option>
@@ -191,12 +177,12 @@ export default function ExternalTransfer() {
             type="textarea"
             name="description"
             id="description"
-            placeholder="example: money transfer"
+            placeholder="example: online payment"
             valid={descriptionState === "has-success"}
             invalid={descriptionState === "has-danger"}
             onChange={handleChange}
           />
-          <FormFeedback>Please don't leave it empty.</FormFeedback>
+          <FormFeedback>Required</FormFeedback>
         </FormGroup>
 
            <Button color = "primary"> Submit</Button>
