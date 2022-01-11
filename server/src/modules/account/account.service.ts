@@ -68,4 +68,9 @@ export class AccountService {
     }, 0);
     return total;
   }
+
+  async findAccountbyAccountId(aid:string) :Promise<any>
+  {
+    return await this.accountModel.findOne({ accountid: aid }).exec();
+  }
 }

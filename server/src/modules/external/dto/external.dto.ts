@@ -3,7 +3,7 @@ import { IsNotEmpty } from 'class-validator';
 export class exteranlDto{
 
   @IsNotEmpty()
-  accountid: number;
+  accountid: string;
 
   @IsNotEmpty()
   amount: number;

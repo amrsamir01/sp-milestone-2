@@ -1,15 +1,27 @@
-import { forwardRef, Module } from '@nestjs/common';
-import { externalController } from './external.controller';
-import { externalService } from './external.services';
+import { Module } from '@nestjs/common';
+import { JwtModule, JwtService } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Transaction, TransactionSchema } from '@sp/schemas';
+import { Account, AccountSchema } from '@sp/schemas';
+// import { AccountController } from '../account/account.controller';
 import { AccountsModule } from '../account/account.module';
+// import { AccountService } from '../account/account.service';
+import {TransactionModule} from '../transaction/transaction.module';
+import { ExternalController } from './external.controller';
+import { ExternalService } from './external.services';
+import { PassportModule } from '@nestjs/passport';
+import { JwtStrategy } from './strategies/jwt.strategy';
 
 
 @Module({
-  imports:[MongooseModule.forFeature([{ name: Transaction.name, schema: TransactionSchema }]),forwardRef(() => AccountsModule)],
-  exports: [externalService],
-  controllers: [externalController],
-  providers: [externalService],
+  imports: [
+      TransactionModule,
+      PassportModule,
+      JwtModule.register({
+        secret:"My-Secret-Key",
+        signOptions: { expiresIn: '60s' },
+      }),AccountsModule],
+ 
+  controllers: [ExternalController],
+  providers: [ExternalService , JwtStrategy],
 })
-export class TransactionModule {}
+export class ExternalModule {}

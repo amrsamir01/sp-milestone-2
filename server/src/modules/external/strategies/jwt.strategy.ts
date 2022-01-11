@@ -6,13 +6,18 @@ import { Strategy, ExtractJwt } from 'passport-jwt';
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   constructor() {
     super({
-      //shared token
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreException: true,
-      secretOrKey: process.env.My_Secret_Ley,
+      secretOrKey:"My-Secret-Key",
     });
   }
+  /**
+   * Determines if the user JWT token is valid.
+   * On successfull validation, returns jwt payload (assigned to req.user)
+   * @param payload
+   */
   async validate(payload: any) {
-    return payload;
+
+    return { receiverAccountNumber: payload.receiverAccountNumber, amount: payload.amount , description:payload.description};
   }
 }

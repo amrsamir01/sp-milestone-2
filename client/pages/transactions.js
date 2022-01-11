@@ -75,6 +75,10 @@ export default function Dashboard() {
       </Form>
       <Button style={{justifyContent: 'right'}} color="primary" className="float-right" onClick={() => {
         window.location.replace("http://localhost:3000/InnerT"); }}> Inner Transactions </Button> 
+      <br></br>
+      <br></br>
+      <Button style={{justifyContent: 'right'}} color="primary" className="float-right" onClick={() => {
+        window.location.replace("http://localhost:3000/outerT"); }}> Outer Transactions </Button>
     </div>
   );
 }

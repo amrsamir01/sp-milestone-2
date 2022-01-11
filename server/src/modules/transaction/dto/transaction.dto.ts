@@ -18,4 +18,6 @@ export class TransactionDto{
   @IsNotEmpty()
   accountid: string;
 
+  description:string;
+
 }

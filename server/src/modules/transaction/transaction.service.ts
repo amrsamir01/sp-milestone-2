@@ -39,7 +39,8 @@ export class TransactionService {
       debit: 0,
       credit: 1,
       amount: sDto.amount,
-      accountid: sDto.from_To.toString()
+      accountid: sDto.from_To.toString(),
+      description:sDto.description
     }
     const reciever = this.createTransaction(rDto);
     return reciever;
