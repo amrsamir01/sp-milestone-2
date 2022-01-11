@@ -1,18 +1,18 @@
 import { IsNotEmpty } from 'class-validator';
 
-export class RequestDto{
+export class bodyDto{
 
   @IsNotEmpty()
-  accountid: string;
+  sender_id: string;
 
   @IsNotEmpty()
-  receiverAccountNumber:string;
-
-  @IsNotEmpty()
-  url:string;
+  receiver_id:string;
 
   @IsNotEmpty()
   amount: number;
+  
+  @IsNotEmpty()
+  url:string;
 
   @IsNotEmpty()
   description: string;
