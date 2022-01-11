@@ -79,7 +79,7 @@ export function useMutateInnerTransaction() {
 export function useMutateOuterTransaction() {
   return useMutation(OuterT => {
   const data = new FormData();
-  return apiService.post(`http://localhost:5000/external/createTransfer`, OuterT);
+  return apiService.post(`http://localhost:5000/external/outerT`, OuterT);
 },
 {
   // When mutate is called:
