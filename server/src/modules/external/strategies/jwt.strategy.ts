@@ -11,11 +11,13 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
       secretOrKey:"My-Secret-Key",
     });
   }
-  async validate(payload: any){
-    return { 
-      receiverAccountNumber:payload.receiverAccountNumber,
-      amount:payload.amount,
-      description:payload.description
-    };
+  /**
+   * Determines if the user JWT token is valid.
+   * On successfull validation, returns jwt payload (assigned to req.user)
+   * @param payload
+   */
+  async validate(payload: any) {
+
+    return { receiverAccountNumber: payload.receiverAccountNumber, amount: payload.amount , description:payload.description};
   }
 }

@@ -1,28 +1,34 @@
 import { Controller, Post, Body, UseGuards } from "@nestjs/common";
-import { ExternalService } from "./external.services";
+import { externalService } from "./external.services";
 import { AuthGuard } from '@nestjs/passport';
 import { exteranlDto } from "./dto/external.dto";
-import { AccountService } from "../account/account.service";
-import { RequestDto } from "./dto/Request.dto";
+import { bodyDto } from "./dto/body.dto";
 
 @Controller("external")
-export class ExternalController {
-  constructor(private externalService: ExternalService,private accountService: AccountService) {}
+export class externalController {
+  constructor(private externalService: externalService,) {}
  
+  
+//   @Post('')
+//   CreateTransaction(@Body() edto:exteranlDto){
+//       const transaction = this.externalService.CreateExternalTrans(edto);
+//       return transaction;
+//   }
+
   @UseGuards(AuthGuard('jwt'))
-  @Post("/transfer")
+  @Post("/outer")
     CreateTransfer(@Body()dto:exteranlDto):any {
      try{
-            return this.externalService.createTransfer(dto);
+            return this.externalService.transfer(dto);
         } catch{
             (err) => console.log(err.message);
         }
     }
 
     @Post("outerT")
-      CreateExternal(@Body()request:RequestDto):any {
+      CreateExternal(@Body()dto:bodyDto):any {
         try{
-            return this.externalService.CreateExternal(request);
+            return this.externalService.CreateExternalTrans(dto);
         } catch{
             (err) => console.log(err.message);
         }
